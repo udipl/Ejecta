@@ -156,9 +156,10 @@ NSObject *JSValueToNSObject( JSContextRef ctx, JSValueRef value ) {
 			NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:count];
 			for( size_t i = 0; i < count; i++ ) {
 				JSStringRef jsName = JSPropertyNameArrayGetNameAtIndex(properties, i);
+                NSString *name = (NSString *)JSStringCopyCFString( kCFAllocatorDefault, jsName );
+                NSLog(@"JSValueToNSObject : will convert object %@", name);
 				NSObject *obj = JSValueToNSObject(ctx, JSObjectGetProperty(ctx, jsObj, jsName, NULL));
 				
-				NSString *name = (NSString *)JSStringCopyCFString( kCFAllocatorDefault, jsName );
 				dict[name] = obj ? obj : NSNull.null;
 				[name release];
 			}
